@@ -1,0 +1,71 @@
+{
+	"name": "pl_validate_landing_file",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get_File_Metadata",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_adls_csv_parameterized",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileSystem": {
+								"value": "@pipeline().parameters.p_file_system",
+								"type": "Expression"
+							},
+							"directory": {
+								"value": "@pipeline().parameters.p_directory",
+								"type": "Expression"
+							},
+							"fileName": {
+								"value": "@pipeline().parameters.p_file_name",
+								"type": "Expression"
+							},
+							"delimiter": {
+								"value": "@pipeline().parameters.p_delimiter",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"exists",
+						"size",
+						"lastModified"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"p_file_system": {
+				"type": "string"
+			},
+			"p_directory": {
+				"type": "string"
+			},
+			"p_file_name": {
+				"type": "string"
+			},
+			"p_delimiter": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
