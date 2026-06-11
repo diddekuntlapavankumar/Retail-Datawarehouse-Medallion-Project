@@ -1,0 +1,125 @@
+{
+	"name": "pl_copy_orders_landing_to_bronze",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_Orders_Landing_To_Bronze",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_csv_parameterized",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileSystem": {
+								"value": "@pipeline().parameters.p_sink_file_system",
+								"type": "Expression"
+							},
+							"directory": {
+								"value": "@pipeline().parameters.p_source_directory",
+								"type": "Expression"
+							},
+							"fileName": {
+								"value": "@pipeline().parameters.p_sink_file_name",
+								"type": "Expression"
+							},
+							"delimiter": {
+								"value": "@pipeline().parameters.p_delimiter",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_json_parameterized",
+						"type": "DatasetReference",
+						"parameters": {
+							"fileSystem": {
+								"value": "@pipeline().parameters.p_sink_file_system",
+								"type": "Expression"
+							},
+							"directory": {
+								"value": "@pipeline().parameters.p_sink_directory",
+								"type": "Expression"
+							},
+							"fileName": {
+								"value": "@pipeline().parameters.p_sink_file_name",
+								"type": "Expression"
+							},
+							"delimiter": {
+								"value": "@pipeline().parameters.p_delimiter",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"p_source_file_system": {
+				"type": "string"
+			},
+			"p_source_directory": {
+				"type": "string"
+			},
+			"p_source_file_name": {
+				"type": "string"
+			},
+			"p_sink_file_system": {
+				"type": "string"
+			},
+			"p_sink_directory": {
+				"type": "string"
+			},
+			"p_sink_file_name": {
+				"type": "string"
+			},
+			"p_delimiter": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"name": "ls_adls_gen2_sp",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://silveradlsstorage.dfs.core.windows.net/",
+			"tenant": "7ab416e2-3465-4dd5-8ecb-373dfb0fbb28",
+			"servicePrincipalId": "95f7e09a-ff49-4245-b5e3-596716ae14ff",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "adls-sp-client-secret"
+			}
+		}
+	}
+}

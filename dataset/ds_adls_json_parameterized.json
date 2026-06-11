@@ -1,0 +1,38 @@
+{
+	"name": "ds_adls_json_parameterized",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2_sp",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileSystem": {
+				"type": "string"
+			},
+			"directory": {
+				"type": "string"
+			},
+			"fileName": {
+				"type": "string"
+			},
+			"delimiter": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "payment_methods.json",
+				"folderPath": "retail/payments/payment_methods/load_date=2026-06-01",
+				"fileSystem": "landing"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
